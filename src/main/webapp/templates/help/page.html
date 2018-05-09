@@ -1,0 +1,10 @@
+{% extends "layout" %}
+
+{% block content %}
+{% autoescape false %}
+{{ page }}
+{% endautoescape %}
+
+<p><a href="{{ href('/help/') }}">Back</a></p>
+
+{% endblock %}

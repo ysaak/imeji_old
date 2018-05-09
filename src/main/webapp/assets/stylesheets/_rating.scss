@@ -1,0 +1,26 @@
+$rating: (
+    safe: (#52bf4a, #fff),
+    questionable: (#c23435, #fff),
+    explicit: (#d82d2d, #666)
+);
+
+.rating-btn {
+  display: inline-block;
+  padding: .5em;
+  background: #ccc;
+  color: #666;
+
+  text-align: center;
+
+  border-radius: 5px;
+
+  @each $name, $colors in $rating {
+    $bgcolor: nth($colors, 1);
+    $fontcolor: nth($colors, 2);
+
+    &--#{$name} {
+      background-color: $bgcolor;
+      color: $fontcolor;
+    }
+  }
+}

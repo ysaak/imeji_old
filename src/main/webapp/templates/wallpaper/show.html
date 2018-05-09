@@ -1,0 +1,75 @@
+{% extends "layout" %}
+
+{% block sidebar %}
+<div class="sidebar">
+    <section class="shadow">
+        <h3 class="text-center">{{ wallpaper.width }} x {{ wallpaper.height }}</h3>
+
+        <div class="palette">
+            {% for color in wallpaper.palette %}
+            <a href="{{ href('/search?q=color:' ~ (color | colorToHex)) }}" style="background: #{{ color | colorToHex }}">&nbsp;</a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="shadow">
+        <div class="title">Tags</div>
+        <div style="position: relative;">
+            <ul class="tag-list">
+                {% for tag in tags %}
+                <li>
+                    <a href="{{ href('/search?q=' ~ tag.code) }}" class="tag-type--{{ tag.type.toString().toLowerCase() }}">{{ tag.code }}</a>
+                    <small class="text-muted">{{ tag.wallpaperCount }}</small>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+
+    <section class="shadow">
+        <div class="title">Properties</div>
+
+        <div class="d-flex my-2">
+            <div class="w-100 rating-btn rating-btn--{{ wallpaper.rating.toString().toLowerCase() }}">
+                {{ wallpaper.rating }}
+            </div>
+        </div>
+
+        <p>File size : {{ wallpaper.fileSize | fileSizeFormat }}</p>
+    </section>
+
+    <section class="shadow">
+        <div class="title">Tools</div>
+        <ul class="list-unstyled mt-2">
+            <li><a href="{{ href(edit_wallpaper_path(wallpaper)) }}">Edit wallpaper</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#exampleModalCenter">Delete wallpaper</a></li>
+        </ul>
+    </section>
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="showcase" class="p-3">
+    <img src="{{ href(getWallpaperPath(wallpaper)) }}" alt="the wallpaper" class="wallpaper" />
+</div>
+
+
+
+<!-- Delete modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <form method="post" action="{{ href(wallpaper_path(wallpaper)) }}">
+            <input type="hidden" name="_method" value="delete">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Confirm wallpaper delete ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete wallpaper</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

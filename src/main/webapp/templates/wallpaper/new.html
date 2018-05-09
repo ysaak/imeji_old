@@ -1,0 +1,91 @@
+{% extends "layout" %}
+
+{% block content %}
+<h1>Upload new wallpaper</h1>
+
+{% if error is not empty %}
+<div class="alert alert-danger" role="alert">
+    {{ error }}
+</div>
+{% endif %}
+
+<form method="POST" enctype="multipart/form-data" action="{{ href(wallpapers_path) }}">
+
+    <div class="row">
+        <div class="col-6">
+            <p>File to upload:</p>
+            <input type="file" name="file[]" multiple  onchange="getFileSizeandName(this);" />
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Size</th>
+                    </tr>
+                </thead>
+                <tbody id="upload-list">
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="2" class="text-right">Total size</th>
+                        <th id="upload-total-size">&nbsp;</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="col-6">
+            <table>
+                <tr><td>Tags:</td><td><textarea name="tags" rows="3" cols="20">{{ tags }}</textarea></td></tr>
+                <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+            </table>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+function getFileSizeandName(input) {
+    var totalsizeOfUploadFiles = 0;
+    var $totoList = $("#upload-list");
+    $totoList.html('');
+
+    for(var i =0; i<input.files.length; i++) {
+        var filesizeInBytes = input.files[i].size;
+        var filesizeInMB = (filesizeInBytes / (1024*1024)).toFixed(2);
+        var filename = input.files[i].name;
+
+        $totoList.append(buildImageBlock(input.files[i], filename, filesizeInMB));
+
+        totalsizeOfUploadFiles += parseFloat(filesizeInMB);
+    }
+
+    $('#upload-total-size').html(totalsizeOfUploadFiles.toFixed(2) + ' MB');
+}
+
+function buildImageBlock(file, name, size) {
+    var $img = $("<img>")
+    $img.attr('src', '#').attr('alt', 'Preview').attr({
+        'class': 'd-flex',
+        'width': 120,
+        'height': 100
+    });
+
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+        $img.attr('src', e.target.result);
+    }
+
+    reader.readAsDataURL(file);
+
+    var $tr = $('<tr>');
+    $tr.append($('<td>').append($img))
+        .append($('<td>').append(name))
+        .append($('<td>').append(size + ' MB'))
+    return $tr;
+}
+</script>
+{% endblock %}

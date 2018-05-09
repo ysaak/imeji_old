@@ -1,0 +1,54 @@
+.sidebar {
+  position: fixed;
+  top: $navbar-height;
+  left: 0;
+  bottom: 0;
+  width: $sidebar-width;
+  padding-top: 1em;
+
+  display: flex;
+  flex-direction: column;
+
+  .tag-list {
+    max-height: 30vh;
+    overflow-y: auto;
+
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  section {
+    background-color: rgba(255, 255, 255, 0.05);
+    margin: 0 0.5em;
+    border-radius: 0.5em;
+    padding: 0.5em;
+
+    .title {
+      font-weight: bold;
+      text-shadow: 2px 2px 3px #000;
+    }
+  }
+
+  section + section {
+    margin-top: 1em;
+  }
+
+  .palette {
+    display: flex;
+    flex-direction: row;
+
+    a {
+      width: 100%;
+      margin: 0.5rem 0;
+      text-indent: -1000em;
+
+      transition: transform .2s;
+
+      &:hover {
+        text-decoration: none;
+        transform: scale(1.5);
+      }
+    }
+  }
+}

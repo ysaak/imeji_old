@@ -1,0 +1,18 @@
+$tag: (
+    copyright: (#D0D),
+    character: (#0A0),
+    circle: (#0bb),
+    style: (#FF2020)
+);
+
+@each $name, $colors in $tag {
+  $fontcolor: nth($colors, 1);
+
+  a.tag-type--#{$name} {
+    color: $fontcolor;
+
+    &:hover {
+      color: $fontcolor;
+    }
+  }
+}
